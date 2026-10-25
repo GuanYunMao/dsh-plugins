@@ -1,0 +1,8 @@
+# dsh-tree-panel bundle patch：向 Loader 树插入一个 host+client 双面条目。
+# host 半（lib/index.js）目前是空插件占位（UI-only，无需 Node 侧路由）；
+# client 半（dsh.client 声明的 lib/client.js）在浏览器侧：
+#   1) 向 sidebar.footer.action 槽注入"分支树"开关按钮（backup-button 同款机制）；
+#   2) 点击后在会话列右侧挂载可缩放/可拖动的分支树面板（自管 DOM，不依赖 web-ui-all）。
+- insert:
+    - id: tree-panel
+      name: dsh-tree-panel

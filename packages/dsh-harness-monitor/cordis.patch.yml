@@ -1,0 +1,10 @@
+# dsh-harness-monitor bundle patch：向 Loader 树插入一个 host+client 双面条目。
+# host 半（lib/index.js）在 Node 侧注册前缀路由 /harness-monitor/api：
+#   GET  /list —— 经 PowerShell 列出本机全部 dsh harness 进程并分类；
+#   POST /kill —— 仅释放后台占用者（服务端二次校验分类后才 Stop-Process）。
+# client 半（lib/client.js）在侧边栏底部操作行（sidebar.footer.action 槽，
+# 备份/设置按钮同一排）注入监视按钮，点击弹出占用列表面板。
+- insert:
+    - id: harness-monitor
+      name: dsh-harness-monitor
+      inject: [webServer]

@@ -1,0 +1,37 @@
+{
+  "name": "@local/dsh-workspace-map",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "主区域里的工作区地图：只读快照，按舱位分区、每个目录一张卡，标注它放什么、多少文件、多大。",
+  "icon": "./icon.svg",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "ui.template.js",
+    "build-map.mjs",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  },
+  "license": "MIT"
+}

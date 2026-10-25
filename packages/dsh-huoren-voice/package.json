@@ -1,0 +1,30 @@
+{
+  "name": "dsh-huoren-voice",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 活人声线：把「热情 / 天马行空 / 严谨 / 幽默」四条方向写成一段可开关的系统提示词，并带一个设置页。",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "README.md",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "test": "node test/verify.mjs && node test/client-smoke.mjs"
+  },
+  "license": "MIT"
+}

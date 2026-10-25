@@ -1,0 +1,8 @@
+# cordis.patch.yml — 把本插件插进 profile
+# 这个插件不需要配置项：地图数据是构建时生成的（见 build-map.mjs）
+- insert:
+    - id: dsh-workspace-map
+      name: '@local/dsh-workspace-map'
+      # 发布版在这里改工作区根；不写就用环境变量 DSH_WORKSPACE_MAP_ROOT，再不行用默认值
+      # config:
+      #   root: 'D:\你的工作区'

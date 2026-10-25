@@ -1,0 +1,11 @@
+# cordis.patch.yml — 把本插件插进 profile
+# root 必须是绝对路径；YAML 单引号里的反斜杠是字面量，不用转义
+- insert:
+    - id: dsh-file-policy
+      name: '@local/dsh-file-policy'
+      config:
+        root: 'D:\DSH Desktop\Harness work'
+        allow:
+          - README.md
+        onViolation: deny
+        log: true

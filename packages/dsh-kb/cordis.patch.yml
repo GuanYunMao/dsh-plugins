@@ -1,0 +1,59 @@
+# dsh-kb bundle patch：插入 host+client 双面条目。
+# host 半（lib/index.js + lib/memory.js）：
+#   - 注册 kb_search / memory_read 两个 agent 工具（defineTool → ctx.tools.register）；
+#   - 注册 /kb/api 前缀路由（status/search/rebuild/library*/memory*/file/open）供面板使用；
+#   - 扫描 ~/.dsh/kb/<库名>/*.md|txt，分块后调 DashScope text-embedding-v4 向量化，
+#     存 ~/.dsh/storages/dsh-kb/<库名>.json，检索为本地暴力余弦；
+#   - 记忆（两级）：
+#     · 窗口记忆 ~/.dsh/kb/<库>/窗口/<标题>-<短id>.md —— **自动型**：每 N 轮自动重写，
+#       并自动注入给它自己的窗口（systemPrompt.section，压缩免疫）；
+#     · 项目记忆 ~/.dsh/kb/<库>/记忆.md —— **主动型**：默认关闭，用户在面板手动开启后
+#       按同样的轮次节奏自动维护；**正文永不自动注入**，AI 需要时用 memory_read 按 query 取小节。
+# client 半（lib/client.js）：侧边栏 📚 按钮 + 知识阁面板（检索 / 记忆 两个页签）。
+- insert:
+    - id: kb
+      name: dsh-kb
+      config:
+        # 知识库存储路径。留空 = 默认；可填绝对路径（如 D:\DSH-KB）或相对 DSH_HOME 的路径
+        paths:
+          source: ""
+          index: ""
+        embedding:
+          # dashscope（默认，需 DASHSCOPE_API_KEY）| openai（OpenAI 兼容：LM Studio / vLLM / Ollama 的 /v1）| ollama（原生 /api/embed）
+          provider: dashscope
+          model: text-embedding-v4
+          dimensions: 1024
+          # 本地服务示例（Ollama，完全离线）：
+          #   provider: ollama
+          #   model: bge-m3
+          #   dimensions: 1024
+          #   baseUrl: http://127.0.0.1:11434
+          baseUrl: ""
+        chunking:
+          targetChars: 1200
+          overlapChars: 150
+        # 检索分数的两档阈值（0~1）。实测：无关查询 0.17~0.20、弱相关 0.35~0.39、真命中 0.56~0.79。
+        # minScore 以下视为"没有相关内容"；介于 minScore 与 lowScore 之间的命中保留但标记 low（低置信）。
+        search:
+          minScore: 0.25
+          lowScore: 0.5
+        # 记忆：全部字段可选，下面是默认值（面板改动会覆盖并存在 storages/dsh-kb/memory.json）
+        memory:
+          enabled: true # 窗口记忆自动更新总开关
+          turns: 6 # 同一窗口每累计多少轮自动重写一次（项目记忆开启后也用这个节奏）
+          minIntervalMs: 120000 # 同一目标两次更新的最小间隔（红线，代码内有 120s 硬下限）
+          recentTurns: 8 # 每次最多回看多少轮
+          maxMessageChars: 2000 # 单条消息截断
+          maxInputChars: 12000 # 本次重写输入（近期轮次）字符上限
+          maxInjectChars: 6000 # 窗口记忆注入系统提示的字符上限
+          maxTokens: 2600 # 记忆重写输出 token 上限
+          timeoutMs: 60000 # 记忆重写超时
+          # 项目记忆总开关：**默认 false，由用户在面板手动开启**；开启后自动维护，
+          # 但正文不会自动注入（agent 用 memory_read 按需取）。
+          projectEnabled: false
+          autoReindex: true # 项目记忆写入后顺手重建该库索引（让 kb_search 立刻可查）
+          # 检索回执：AI/面板每次检索后记下"查了什么、命中哪个文件哪一节"，
+          # 跟着窗口记忆每轮进入系统提示 —— 对话被压缩后仍然知道自己查过什么。
+          receipts: true
+          maxReceipts: 5 # 保留最近几条
+          maxReceiptChars: 700 # 回执注入的字符上限

@@ -1,0 +1,21 @@
+{
+  "name": "dsh-backup-button",
+  "version": "0.1.2",
+  "description": "DSH 侧边栏配置快照按钮（v2）：一键快照 9 个关键配置文件（web/dev patch、package.json、workspace、lock、settings、凭据），harness 每次启动自动去重快照，保留最近 20 份；恢复走 tools/dsh-snapshot-restore.ps1（ZCode 接口）",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "dsh-kb",
+  "version": "0.12.0",
+  "description": "DSH 知识库插件：~/.dsh/kb/<库名>/ 文件夹扫描 → 分块 → DashScope text-embedding-v4 向量化 → 本地余弦检索。宿主半注册 kb_search agent 工具与 /kb/api 路由，客户端半在侧边栏注入管理面板。零 npm 依赖。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/memory.test.mjs && node test/embedding.test.mjs"
+  }
+}

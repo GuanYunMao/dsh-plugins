@@ -1,0 +1,24 @@
+{
+  "name": "dsh-tree-panel",
+  "version": "0.1.0",
+  "description": "DSH 侧边栏分支树面板：按 parentSession 把会话组织成分叉树，卡片可点击定位、面板可缩放拖动（Cherry Studio 风格）。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/static.test.mjs"
+  }
+}

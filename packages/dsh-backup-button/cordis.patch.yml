@@ -1,0 +1,9 @@
+# dsh-backup-button bundle patch：向 Loader 树插入一个 host+client 双面条目。
+# host 半（lib/index.js）在 Node 侧注册前缀路由 /backup/api/backup（GET），
+# 把当前 profile 的 cordis.patch.yml 复制到 <DSH_HOME>/backups/；
+# client 半（dsh.client 声明，lib/client.js）在浏览器侧向侧边栏底部
+# （sidebar.footer.action 槽，设置图标同一排）注入备份按钮。
+- insert:
+    - id: backup-button
+      name: dsh-backup-button
+      inject: [webServer]

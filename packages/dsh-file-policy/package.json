@@ -1,0 +1,28 @@
+{
+  "name": "@local/dsh-file-policy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "拦住落在工作区根的散件写操作，把文件往 工程坞 / 成品舱 / 收件箱 赶；守卫自身出错时放行。",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./policy": "./policy.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "policy.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "test": "node test/policy.test.mjs"
+  },
+  "license": "MIT"
+}

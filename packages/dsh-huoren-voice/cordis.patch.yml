@@ -1,0 +1,22 @@
+# dsh-huoren-voice bundle patch
+# 宿主半：两条 system-prompt 段落（huoren:voice 在 order 20；huoren:voice-tail 在 10201）
+#         + /huoren-voice/api 三条回环路由。
+# 客户端半：设置 → 声线（开关 / 追加 / 样例 / 预览）。
+- insert:
+    - id: huoren-voice
+      name: dsh-huoren-voice
+      config:
+        enabled: true # 总开关；false 时两条段落都注入空串
+        warm: true # 热情：先接住再展开，多走一步
+        rigor: true # 严谨：事实/推断/猜测分开说
+        wild: true # 天马行空：允许一个标明代价的脑洞
+        humor: true # 幽默：一句话就停
+        rhythm: true # 节奏：先给判断、段落 ≤3 行、结尾给下一步
+        concrete: true # 具体：细节顶形容词
+        forbidTable: true # 替换表（"需要注意的是"→"麻烦的地方在于"这类）
+        emoji: true # 按整条回复算 3–8 个（不是每句一个）；一段最多一个，代码/命令里不塞
+        tailEcho: true # 提示词末尾再放一句声线回声（代价约 +40 字/请求）
+        examples: true # 「你会这样说 / 你不会这样说」正反例句（效果比规则大）
+        samples: "" # 你喜欢的句子，一行一条，最多 6 条；原样作为参照注入
+        append: "" # 追加你自己的话，原样注入到主段末尾
+        maxChars: 4000 # 主段字符上限，超出截断

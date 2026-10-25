@@ -1,0 +1,24 @@
+{
+  "name": "dsh-harness-monitor",
+  "version": "0.4.0",
+  "description": "DSH 侧边栏 harness 占用监视器：列出本机全部 dsh harness 进程（后台编码搭档/Desktop/dev）并映射到正在服务的会话（本界面读 sessions 快照，其它进程探测 whoami），按类别分级单个释放（background 直接结束；dev 确认后结束；Desktop 提示重启后端），host 半经 PowerShell 查询与受校验的 kill，client 半在侧边栏底部注入按钮与面板",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/http.test.mjs"
+  }
+}
